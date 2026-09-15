@@ -16,4 +16,16 @@ class Classification(unittest.TestCase):
         self.assertFalse(runner.accepted(result,'WRITE_POINTER_FAILED'))
     def test_pass_needs_exercised_conditions(self):
         self.assertFalse(runner.accepted({'exit':0,'timeout':False,'output':'FIFO_ASSERTIONS_PASS'},None))
+    def test_modified_source_rejected(self):
+        provenance={'revision':'72d8122a7c5d458afabff2f858fe76f134010009','sha256':runner.hashlib.sha256(b'original').hexdigest()}
+        self.assertTrue(runner.source_matches(b'original',provenance))
+        self.assertFalse(runner.source_matches(b'changed',provenance))
+    def test_complete_matrix_rejects_duplicate(self):
+        cases=[{'variant':v,'half_periods_ns':list(pair)} for v in ('correct',*runner.MUTANTS) for pair in runner.PAIRS]
+        self.assertTrue(runner.complete_matrix(cases))
+        cases[-1]=cases[0]
+        self.assertFalse(runner.complete_matrix(cases))
+    def test_nonfatal_failure_rejected(self):
+        text='FIFO_ASSERTIONS_PASS\nEXERCISE received=16 blocked_writes=16 blocked_reads=16 write_wraps=4 read_wraps=4\nWRITE_POINTER_FAILED'
+        self.assertFalse(runner.accepted({'exit':0,'timeout':False,'output':text},None))
 if __name__=='__main__': unittest.main()

@@ -35,13 +35,21 @@ def execute(command, cwd, timeout):
         output, _ = proc.communicate()
     return {'exit': proc.returncode, 'timeout': timed, 'seconds': round(time.monotonic()-start,6), 'output': output}
 
+def source_matches(source, provenance):
+    return provenance.get("revision") == "72d8122a7c5d458afabff2f858fe76f134010009" and provenance.get("sha256") == hashlib.sha256(source).hexdigest()
+
+def complete_matrix(cases):
+    expected={(variant, pair) for variant in ("correct", *MUTANTS) for pair in PAIRS}
+    actual=[(case["variant"], tuple(case["half_periods_ns"])) for case in cases]
+    return len(actual)==len(expected) and set(actual)==expected
+
 def accepted(result, expected):
     if result['timeout'] or result['exit'] is None:
         return False
     if expected:
         failures = re.findall(r'\b[A-Z_]+_FAILED\b', result['output'])
         return result['exit'] != 0 and failures == [expected] and 'FIFO_ASSERTIONS_PASS' not in result['output']
-    return result['exit'] == 0 and result['output'].count('FIFO_ASSERTIONS_PASS') == 1 and bool(re.search(r'EXERCISE received=16 blocked_writes=[1-9]\d* blocked_reads=[1-9]\d* write_wraps=[4-9]\d* read_wraps=[4-9]\d*',result['output']))
+    return result['exit'] == 0 and not re.search(r'\b[A-Z_]+_FAILED\b', result['output']) and result['output'].count('FIFO_ASSERTIONS_PASS') == 1 and bool(re.search(r'EXERCISE received=16 blocked_writes=[1-9]\d* blocked_reads=[1-9]\d* write_wraps=[4-9]\d* read_wraps=[4-9]\d*',result['output']))
 
 def main():
     parser = argparse.ArgumentParser()
@@ -50,8 +58,12 @@ def main():
     out = args.evidence.resolve() / ('run-'+uuid.uuid4().hex[:12])
     out.mkdir(parents=True)
     source = (ROOT/'rtl/async_fifo.sv').read_text()
+    provenance = json.loads((ROOT/'UPSTREAM.json').read_text())
+    if not source_matches((ROOT/'rtl/async_fifo.sv').read_bytes(), provenance):
+        raise RuntimeError('FIFO source does not match pinned upstream provenance')
     sources = [ROOT/'rtl/async_fifo.sv', ROOT/'tb/fifo_properties.sv', ROOT/'tb/tb.sv', Path(__file__).resolve()]
-    report = {'schema_version':1, 'scope':'Bound SVA simulation at ASIZE=2, DSIZE=8, coordinated reset, three clock pairs',
+    report = {'schema_version':1, 'scope':'Bound SVA simulation at ASIZE=2, DSIZE=8, common startup reset assertion with staggered idle release, three clock pairs',
+              'upstream':provenance, 'source_provenance_verified':True,
               'sources':{str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest() for p in sources},
               'verilator':execute(['verilator','--version'],out,10)['output'].strip(), 'cases':[], 'builds':[]}
     for variant in ('correct', *MUTANTS):
@@ -83,7 +95,7 @@ def main():
             report['cases'].append({'variant':variant,'half_periods_ns':[w,r],'expected_diagnostic':expected,
                                     'accepted':ok, 'command':command,'log':str(log.relative_to(out)),**result})
             print(variant,w,r,'EXPECTED' if ok else 'UNEXPECTED',flush=True)
-    report['ok'] = len(report['cases']) == 9 and all(x['accepted'] for x in report['cases'])
+    report['ok'] = complete_matrix(report['cases']) and all(x['accepted'] for x in report['cases'])
     (out/'summary.json').write_text(json.dumps(report,indent=2)+'\n')
     print(out/'summary.json')
     return 0 if report['ok'] else 1
