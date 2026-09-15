@@ -1,0 +1,6 @@
+EXERCISE scenario=1 seed=307 depth=8 width=13 writes=32 reads=32 blocked_writes=12 blocked_reads=12 write_wraps=4 read_wraps=4
+FIFO_ASSERTIONS_PASS
+- /Users/avishas/developer/rivoryxa-examples/fifo-assertion-verification/tb/tb.sv:126: Verilog $finish
+- S i m u l a t i o n   R e p o r t: Verilator 5.050 2026-07-01
+- Verilator: $finish at 3us; walltime 0.000 s; speed 21.314 ms/s
+- Verilator: cpu 0.000 s on 1 threads; allocated 2 MB

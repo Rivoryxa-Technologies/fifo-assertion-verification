@@ -86,12 +86,10 @@ module tb #(parameter int DSIZE=8, parameter int ASIZE=2);
          for(wi=0;wi<target_writes*3 && accepted_writes<target_writes;wi=wi+1) begin
            @(negedge wclk); wrng=prng(wrng); winc=wrng[0]|wrng[3];
            next_data=DSIZE'(wrng^accepted_writes^(accepted_writes<<3));
-           if(&next_data) next_data[0]=0;
            wdata=next_data;
          end
          while(accepted_writes<target_writes) begin
            @(negedge wclk); winc=1; next_data=DSIZE'(accepted_writes*13+seed);
-           if(&next_data) next_data[0]=0;
            wdata=next_data;
          end
          winc=0;

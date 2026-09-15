@@ -1,12 +1,44 @@
 // SPDX-License-Identifier: MIT
 `timescale 1ns/1ps
 module fifo_properties #(parameter int ASIZE=2)(
- input logic wclk, wrst_n, winc, wfull, wfull_val,
- input logic rclk, rrst_n, rinc, rempty, rempty_val,
+ input logic wclk, wrst_n, winc, wfull,
+ input logic rclk, rrst_n, rinc, rempty,
  input logic [ASIZE:0] wbin,wgray,rbin,rgray,wptr_rq1,wptr_rq2,rptr_wq1,rptr_wq2
 );
  logic wpast=0,rpast=0;
  integer blocked_writes=0, blocked_reads=0, write_wraps=0, read_wraps=0;
+ function automatic logic [ASIZE:0] gray_to_bin(input logic [ASIZE:0] gray);
+   integer bit_index;
+   begin
+     gray_to_bin[ASIZE]=gray[ASIZE];
+     for(bit_index=ASIZE-1;bit_index>=0;bit_index=bit_index-1)
+       gray_to_bin[bit_index]=gray_to_bin[bit_index+1]^gray[bit_index];
+   end
+ endfunction
+ function automatic logic expected_full(
+   input logic [ASIZE:0] previous_wbin,
+   input logic [ASIZE:0] synchronized_rgray,
+   input logic accepted_write
+ );
+   logic [ASIZE:0] candidate_wbin,synchronized_rbin;
+   begin
+     candidate_wbin=previous_wbin+(ASIZE+1)'(accepted_write);
+     synchronized_rbin=gray_to_bin(synchronized_rgray);
+     expected_full=(candidate_wbin[ASIZE]!=synchronized_rbin[ASIZE]) &&
+                   (candidate_wbin[ASIZE-1:0]==synchronized_rbin[ASIZE-1:0]);
+   end
+ endfunction
+ function automatic logic expected_empty(
+   input logic [ASIZE:0] previous_rbin,
+   input logic [ASIZE:0] synchronized_wgray,
+   input logic accepted_read
+ );
+   logic [ASIZE:0] candidate_rbin;
+   begin
+     candidate_rbin=previous_rbin+(ASIZE+1)'(accepted_read);
+     expected_empty=(candidate_rbin==gray_to_bin(synchronized_wgray));
+   end
+ endfunction
  always @(posedge wclk or negedge wrst_n)
    if (!wrst_n) wpast <= 0; else begin
      wpast <= 1;
@@ -32,9 +64,11 @@ module fifo_properties #(parameter int ASIZE=2)(
  assert property (@(posedge wclk) disable iff (!wrst_n || !wpast)
    rptr_wq2 == $past(rptr_wq1)) else $fatal(1,"READ_SYNC_PIPELINE_FAILED");
  assert property (@(posedge wclk) disable iff (!wrst_n || !wpast)
-   wfull == $past(wfull_val)) else $fatal(1,"FULL_FLAG_FAILED");
+   wfull == expected_full($past(wbin),$past(rptr_wq2),$past(winc && !wfull)))
+   else $fatal(1,"FULL_FLAG_FAILED");
  assert property (@(posedge rclk) disable iff (!rrst_n || !rpast)
-   rempty == $past(rempty_val)) else $fatal(1,"EMPTY_FLAG_FAILED");
+   rempty == expected_empty($past(rbin),$past(wptr_rq2),$past(rinc && !rempty)))
+   else $fatal(1,"EMPTY_FLAG_FAILED");
  cover property (@(posedge wclk) wpast && winc && wfull);
  cover property (@(posedge rclk) rpast && rinc && rempty);
 endmodule

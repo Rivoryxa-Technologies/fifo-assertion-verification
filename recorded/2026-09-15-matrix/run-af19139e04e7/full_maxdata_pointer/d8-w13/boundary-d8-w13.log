@@ -1,3 +1,0 @@
-[238000] %Fatal: fifo_properties.sv:27: Assertion failed in tb.dut.checks: WRITE_POINTER_FAILED
-%Error: /Users/avishas/developer/rivoryxa-examples/fifo-assertion-verification/tb/fifo_properties.sv:27: Verilog $stop
-Aborting...

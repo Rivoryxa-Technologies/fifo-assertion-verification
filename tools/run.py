@@ -24,12 +24,21 @@ CASES = (
     {'id':'concurrent-d8-w13', 'config':(3,13),'scenario':2, 'seed':601, 'clocks':(11,4),'phases':(1,6)},
 )
 MUTANTS = {
-    # A deliberately narrow defect: an all-ones request advances the pointer while full.
-    # Concurrent and happy cases reserve that data value, so only boundary cases trigger it.
-    'full_maxdata_pointer': (
+    'sync_bypass': (
+        '{wptr_rq1, wgray}',
+        '{wgray, wgray}',
+        'WRITE_SYNC_PIPELINE_FAILED',
+    ),
+    'full_pointer': (
         'wbin + (winc & ~wfull)',
-        'wbin + (winc & (~wfull | (&wdata)))',
+        'wbin + winc',
         'WRITE_POINTER_FAILED',
+    ),
+    # Uses the stale local pointer rather than the prospective pointer for full.
+    'stale_full': (
+        '(wgraynext == {~rptr_wq2[ASIZE:ASIZE-1], rptr_wq2[ASIZE-2:0]})',
+        '(wgray == {~rptr_wq2[ASIZE:ASIZE-1], rptr_wq2[ASIZE-2:0]})',
+        'FULL_FLAG_FAILED',
     ),
 }
 VARIANTS = ('correct', *MUTANTS)
@@ -58,7 +67,14 @@ def source_matches(source, provenance):
             and provenance.get('sha256') == hashlib.sha256(source).hexdigest())
 
 def expected_diagnostic(variant, case):
-    return MUTANTS[variant][2] if variant in MUTANTS and case['scenario'] == 1 else None
+    if variant == 'sync_bypass':
+        return MUTANTS[variant][2]
+    exercises_full = case['scenario'] == 1 or case['id'] in {
+        'concurrent-d4-w5-a', 'concurrent-d4-w5-b', 'concurrent-d4-w8'
+    }
+    if variant in ('full_pointer', 'stale_full') and exercises_full:
+        return MUTANTS[variant][2]
+    return None
 
 def complete_matrix(cases):
     expected = {(variant, case['id']) for variant in VARIANTS for case in CASES}

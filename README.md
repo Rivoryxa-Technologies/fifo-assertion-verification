@@ -25,13 +25,17 @@ The runner compiles depths 4 and 8 at widths 5, 8, and 13 where used. Seven simu
 
 The scoreboard records data on accepted write-clock edges and compares it on accepted read-clock edges. Concurrent cases transfer 65 words at depth 4 and 113 words at depth 8. Directed boundary cases require blocked writes, blocked reads, and at least four address-pointer wraps in both domains.
 
-The original pointer, Gray-transition, blocked-request, and synchronizer-pipeline assertions remain active. Registered full and empty flags must also equal the preceding local-domain next-pointer comparison. These are local digital simulation properties: binary pointers advance only for accepted requests, source Gray pointers change by at most one bit per source edge, and synchronizer stage two equals the preceding destination-domain value of stage one.
+The original pointer, Gray-transition, blocked-request, and synchronizer-pipeline assertions remain active. Full and empty semantics are checked independently of the RTL's `wfull_val` and `rempty_val` wires: the properties decode the synchronized Gray pointer to binary, apply the preceding accepted local operation, and compare the registered flag with the resulting pointer relationship. These are local digital simulation properties: binary pointers advance only for accepted requests, source Gray pointers change by at most one bit per source edge, and synchronizer stage two equals the preceding destination-domain value of stage one.
 
-## Targeted negative control
+## Negative controls
 
-The runner generates one labelled temporary mutant; it does not edit `rtl/async_fifo.sv`. The mutant incorrectly advances the write pointer only when a write is requested while full **and** the data word is all ones. The ordinary happy path and all concurrent random cases reserve that value and therefore must pass for the mutant. Only the two directed full-boundary cases supply the trigger and must fail with exactly `WRITE_POINTER_FAILED`.
+The runner generates three labelled temporary mutants; it never edits `rtl/async_fifo.sv`:
 
-This split demonstrates a subtle temporal defect that escapes ordinary traffic while still proving the expected failing condition narrowly. It is an intentionally seeded checker-sensitivity test, not a claim about a defect found upstream.
+- `sync_bypass` feeds the first synchronized write-pointer stage directly into the second and must trigger exactly `WRITE_SYNC_PIPELINE_FAILED` in every workload.
+- `full_pointer` advances the write pointer on a blocked request and must trigger exactly `WRITE_POINTER_FAILED` in workloads that reach full. The short happy path and the depth-8 read-faster concurrent case do not reach full and must pass.
+- `stale_full` computes full from the current write Gray pointer instead of the prospective next pointer. It must trigger exactly `FULL_FLAG_FAILED` in workloads that reach full, while the same two non-full workloads must pass.
+
+The stale-pointer case is the targeted temporal defect: ordinary short traffic and a sustained read-faster workload naturally avoid its boundary condition, without filtering payload values or manufacturing a data-dependent escape. These are intentionally seeded checker-sensitivity tests, not claims about defects found upstream.
 
 ## Scope and limits
 

@@ -1,0 +1,3 @@
+[175000] %Fatal: fifo_properties.sv:68: Assertion failed in tb.dut.checks: FULL_FLAG_FAILED
+%Error: /Users/avishas/developer/rivoryxa-examples/fifo-assertion-verification/tb/fifo_properties.sv:68: Verilog $stop
+Aborting...

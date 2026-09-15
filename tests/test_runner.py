@@ -35,8 +35,13 @@ class Classification(unittest.TestCase):
     def test_targeted_failure_classification(self):
         happy=runner.CASES[0]
         boundary=next(case for case in runner.CASES if case['scenario']==1)
-        self.assertIsNone(runner.expected_diagnostic('full_maxdata_pointer',happy))
-        self.assertEqual(runner.expected_diagnostic('full_maxdata_pointer',boundary),'WRITE_POINTER_FAILED')
+        concurrent=next(case for case in runner.CASES if case['scenario']==2)
+        read_faster=next(case for case in runner.CASES if case['id']=='concurrent-d8-w13')
+        self.assertIsNone(runner.expected_diagnostic('stale_full',happy))
+        self.assertEqual(runner.expected_diagnostic('stale_full',boundary),'FULL_FLAG_FAILED')
+        self.assertEqual(runner.expected_diagnostic('stale_full',concurrent),'FULL_FLAG_FAILED')
+        self.assertIsNone(runner.expected_diagnostic('stale_full',read_faster))
+        self.assertEqual(runner.expected_diagnostic('sync_bypass',happy),'WRITE_SYNC_PIPELINE_FAILED')
     def test_nonfatal_failure_rejected(self):
         text='FIFO_ASSERTIONS_PASS\nEXERCISE received=16 blocked_writes=16 blocked_reads=16 write_wraps=4 read_wraps=4\nWRITE_POINTER_FAILED'
         self.assertFalse(runner.accepted({'exit':0,'timeout':False,'output':text},None))
