@@ -1,0 +1,7 @@
+{
+  "repository": "https://github.com/Rivoryxa-Technologies/cdc-verification",
+  "revision": "72d8122a7c5d458afabff2f858fe76f134010009",
+  "path": "rtl/async_fifo.sv",
+  "sha256": "94a99a97046dd9b0a722b93eb353cae4f3ec45a15d3585cf3af3dfc274381fb4",
+  "license": "MIT"
+}
