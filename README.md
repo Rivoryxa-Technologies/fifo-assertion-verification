@@ -1,6 +1,6 @@
-# FIFO assertions you can execute
+# FIFO assertions with concurrent data checking
 
-A FIFO can transfer data in a test and still have a broken local pointer or synchronizer pipeline. This example attaches SystemVerilog assertions to a small asynchronous FIFO without editing its RTL.
+This example binds SystemVerilog assertions to a small asynchronous FIFO and runs them beside an end-to-end data scoreboard. The upstream RTL remains byte-for-byte unchanged; the testbench drives independent producer and consumer clocks and checks every accepted read against the corresponding accepted write.
 
 ## Reproduce
 
@@ -12,26 +12,35 @@ cd fifo-assertion-verification
 make test
 ```
 
-Every run has a new `evidence/run-*` directory containing source hashes, generated variants, compiler logs, simulator logs, commands, durations, and a JSON summary. Compilation is bounded to 180 seconds and each simulation to 15 seconds. Compiler errors, missing tools, and timeouts cannot count as expected negative controls.
+Each run creates a new `evidence/run-*` directory containing hashes, generated mutant RTL, exact commands, compiler and simulator logs, durations, and `summary.json`. Builds are bounded to 180 seconds and simulations to 20 seconds. A timeout, missing tool, incomplete matrix, duplicate case, compilation error, wrong diagnostic, extra diagnostic, or pass banner accompanying a failure is rejected.
 
-## Checks and exercised conditions
+## Verification matrix
 
-- Binary pointers advance exactly when the local request is accepted, and hold when full or empty blocks it.
-- A source Gray pointer changes by no more than one bit at a local clock edge.
-- Each synchronizer's second stage equals its first stage from the previous destination clock edge.
-- The test fills and drains a four-entry, eight-bit FIFO four times, checks all 16 data words, and requires blocked writes, blocked reads, and four pointer wraps on each side.
-- Three write/read half-period pairs run: 5/7, 7/5, and 4/11 ns. Clock periods are twice those values.
+The runner compiles depths 4 and 8 at widths 5, 8, and 13 where used. Seven simulations per variant cover:
 
-The unmodified design must pass all three runs. Two labelled temporary mutants each run at all three clock pairs: bypassing the write-pointer synchronizer stage must trigger `WRITE_SYNC_PIPELINE_FAILED`; advancing the write pointer while full must trigger `WRITE_POINTER_FAILED`. They are demonstrations of checker sensitivity, not discovered upstream defects. The original source stays unchanged.
+- an ordinary two-word happy path that neither fills nor wraps the depth-4/width-8 FIFO;
+- full/empty blocking and four complete fill/drain rounds at depth 4/width 5 and depth 8/width 13;
+- concurrent producer/consumer traffic at both depths and all three widths, including write-faster, read-faster, and unequal phase configurations;
+- two independent deterministic PRNG streams and recorded seeds, so producer and consumer choices reproduce without depending on process scheduling.
+
+The scoreboard records data on accepted write-clock edges and compares it on accepted read-clock edges. Concurrent cases transfer 65 words at depth 4 and 113 words at depth 8. Directed boundary cases require blocked writes, blocked reads, and at least four address-pointer wraps in both domains.
+
+The original pointer, Gray-transition, blocked-request, and synchronizer-pipeline assertions remain active. Registered full and empty flags must also equal the preceding local-domain next-pointer comparison. These are local digital simulation properties: binary pointers advance only for accepted requests, source Gray pointers change by at most one bit per source edge, and synchronizer stage two equals the preceding destination-domain value of stage one.
+
+## Targeted negative control
+
+The runner generates one labelled temporary mutant; it does not edit `rtl/async_fifo.sv`. The mutant incorrectly advances the write pointer only when a write is requested while full **and** the data word is all ones. The ordinary happy path and all concurrent random cases reserve that value and therefore must pass for the mutant. Only the two directed full-boundary cases supply the trigger and must fail with exactly `WRITE_POINTER_FAILED`.
+
+This split demonstrates a subtle temporal defect that escapes ordinary traffic while still proving the expected failing condition narrowly. It is an intentionally seeded checker-sensitivity test, not a claim about a defect found upstream.
 
 ## Scope and limits
 
-These are bound SVA checks executed in digital simulation, not formal proofs or electrical CDC sign off. A synchronous simulator does not model analog metastability or physical timing constraints. Independent reset recovery, arbitrary FIFO depths/widths, every clock ratio, and all concurrent traffic sequences are outside this matrix. Reset is asserted on both sides at startup and released first on the write side, then on the read side while the FIFO is idle. This does not demonstrate reset recovery during traffic. Gray transitions are checked in their source domain; we do not incorrectly require a one-bit difference between destination samples, which can skip multiple source updates.
+This remains a toy, module-level simulation example. It is not a formal proof, SoC integration test, electrical CDC sign-off, metastability model, reset-recovery campaign, exhaustive clock-ratio sweep, or exhaustive parameter proof. Resets assert together at startup and release at different idle clock edges; reset interruption during traffic is untested. Depths other than 4 and 8, widths other than 5, 8, and 13, and traffic beyond the recorded seeds remain outside the matrix.
 
-Exercise counters show that the stated events occurred. They are not complete functional/code coverage. The SVA `cover` statements are included for inspection; reported counts come from explicit counters required by the testbench.
+The data scoreboard and explicit exercise counters establish the events described above. They are not code or functional coverage metrics. Gray transitions are checked in the source domain; destination samples may legitimately skip source values.
 
 ## Source provenance
 
-`rtl/async_fifo.sv` is copied byte for byte from [Rivoryxa-Technologies/cdc-verification](https://github.com/Rivoryxa-Technologies/cdc-verification) revision `72d8122a7c5d458afabff2f858fe76f134010009`, under its MIT licence retained here. See `UPSTREAM.json` for the exact hash. Assertions, runner, and testbench are original MIT-licensed demonstration code.
+`rtl/async_fifo.sv` is copied byte for byte from [Rivoryxa-Technologies/cdc-verification](https://github.com/Rivoryxa-Technologies/cdc-verification) revision `72d8122a7c5d458afabff2f858fe76f134010009`, under its retained MIT licence. `UPSTREAM.json` pins the path and SHA-256. The runner refuses to execute if either revision metadata or the source hash changes. Assertions, runner, and testbench are original MIT-licensed demonstration code.
 
-Tool runtimes are recorded per command and are not client delivery estimates. This is public demonstration material, not client RTL or production sign off.
+Tool runtimes are recorded per command and are not client delivery estimates. This repository is public demonstration material, not client RTL or production sign-off.

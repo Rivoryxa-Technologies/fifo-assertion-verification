@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: MIT
 `timescale 1ns/1ps
 module fifo_properties #(parameter int ASIZE=2)(
- input logic wclk, wrst_n, winc, wfull, rclk, rrst_n, rinc, rempty,
+ input logic wclk, wrst_n, winc, wfull, wfull_val,
+ input logic rclk, rrst_n, rinc, rempty, rempty_val,
  input logic [ASIZE:0] wbin,wgray,rbin,rgray,wptr_rq1,wptr_rq2,rptr_wq1,rptr_wq2
 );
  logic wpast=0,rpast=0;
@@ -30,6 +31,10 @@ module fifo_properties #(parameter int ASIZE=2)(
    wptr_rq2 == $past(wptr_rq1)) else $fatal(1,"WRITE_SYNC_PIPELINE_FAILED");
  assert property (@(posedge wclk) disable iff (!wrst_n || !wpast)
    rptr_wq2 == $past(rptr_wq1)) else $fatal(1,"READ_SYNC_PIPELINE_FAILED");
+ assert property (@(posedge wclk) disable iff (!wrst_n || !wpast)
+   wfull == $past(wfull_val)) else $fatal(1,"FULL_FLAG_FAILED");
+ assert property (@(posedge rclk) disable iff (!rrst_n || !rpast)
+   rempty == $past(rempty_val)) else $fatal(1,"EMPTY_FLAG_FAILED");
  cover property (@(posedge wclk) wpast && winc && wfull);
  cover property (@(posedge rclk) rpast && rinc && rempty);
 endmodule

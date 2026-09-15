@@ -1,0 +1,608 @@
+{
+  "schema_version": 2,
+  "scope": "Bound SVA and data-scoreboard simulation at depths 4/8, widths 5/8/13, directed boundary and concurrent dual-clock traffic",
+  "upstream": {
+    "repository": "https://github.com/Rivoryxa-Technologies/cdc-verification",
+    "revision": "72d8122a7c5d458afabff2f858fe76f134010009",
+    "path": "rtl/async_fifo.sv",
+    "sha256": "94a99a97046dd9b0a722b93eb353cae4f3ec45a15d3585cf3af3dfc274381fb4",
+    "license": "MIT"
+  },
+  "source_provenance_verified": true,
+  "sources": {
+    "rtl/async_fifo.sv": "94a99a97046dd9b0a722b93eb353cae4f3ec45a15d3585cf3af3dfc274381fb4",
+    "tb/fifo_properties.sv": "75517850a9cb3ad8605a4bcb2594ea887684170da63703e2fdd61fd18d514b99",
+    "tb/tb.sv": "84738c821e327b0d6f72088a9d0a7b6db9d92f2fb7187647ed2556248cc43ba5",
+    "tools/run.py": "5e8db43495713182ea0668944bc889026f1b3355e9f19abd9ba7457becbb0cc4"
+  },
+  "verilator": "Verilator 5.050 2026-07-01 rev vUNKNOWN-built20260701",
+  "cases": [
+    {
+      "variant": "correct",
+      "case_id": "boundary-d4-w5",
+      "scenario": 1,
+      "depth": 4,
+      "width": 5,
+      "half_periods_ns": [
+        5,
+        7
+      ],
+      "phases_ns": [
+        1,
+        3
+      ],
+      "seed": 211,
+      "expected_diagnostic": null,
+      "accepted": true,
+      "command": [
+        "/Users/avishas/developer/rivoryxa-examples/fifo-assertion-verification/recorded/2026-09-15-matrix/run-af19139e04e7/correct/d4-w5/obj/Vtb",
+        "+WHALF=5",
+        "+RHALF=7",
+        "+WPHASE=1",
+        "+RPHASE=3",
+        "+SEED=211",
+        "+SCENARIO=1"
+      ],
+      "log": "correct/d4-w5/boundary-d4-w5.log",
+      "exit": 0,
+      "timeout": false,
+      "seconds": 0.244032
+    },
+    {
+      "variant": "correct",
+      "case_id": "concurrent-d4-w5-a",
+      "scenario": 2,
+      "depth": 4,
+      "width": 5,
+      "half_periods_ns": [
+        7,
+        5
+      ],
+      "phases_ns": [
+        0,
+        3
+      ],
+      "seed": 401,
+      "expected_diagnostic": null,
+      "accepted": true,
+      "command": [
+        "/Users/avishas/developer/rivoryxa-examples/fifo-assertion-verification/recorded/2026-09-15-matrix/run-af19139e04e7/correct/d4-w5/obj/Vtb",
+        "+WHALF=7",
+        "+RHALF=5",
+        "+WPHASE=0",
+        "+RPHASE=3",
+        "+SEED=401",
+        "+SCENARIO=2"
+      ],
+      "log": "correct/d4-w5/concurrent-d4-w5-a.log",
+      "exit": 0,
+      "timeout": false,
+      "seconds": 0.003921
+    },
+    {
+      "variant": "correct",
+      "case_id": "concurrent-d4-w5-b",
+      "scenario": 2,
+      "depth": 4,
+      "width": 5,
+      "half_periods_ns": [
+        3,
+        10
+      ],
+      "phases_ns": [
+        2,
+        1
+      ],
+      "seed": 409,
+      "expected_diagnostic": null,
+      "accepted": true,
+      "command": [
+        "/Users/avishas/developer/rivoryxa-examples/fifo-assertion-verification/recorded/2026-09-15-matrix/run-af19139e04e7/correct/d4-w5/obj/Vtb",
+        "+WHALF=3",
+        "+RHALF=10",
+        "+WPHASE=2",
+        "+RPHASE=1",
+        "+SEED=409",
+        "+SCENARIO=2"
+      ],
+      "log": "correct/d4-w5/concurrent-d4-w5-b.log",
+      "exit": 0,
+      "timeout": false,
+      "seconds": 0.00306
+    },
+    {
+      "variant": "correct",
+      "case_id": "happy-d4-w8",
+      "scenario": 0,
+      "depth": 4,
+      "width": 8,
+      "half_periods_ns": [
+        5,
+        7
+      ],
+      "phases_ns": [
+        0,
+        2
+      ],
+      "seed": 101,
+      "expected_diagnostic": null,
+      "accepted": true,
+      "command": [
+        "/Users/avishas/developer/rivoryxa-examples/fifo-assertion-verification/recorded/2026-09-15-matrix/run-af19139e04e7/correct/d4-w8/obj/Vtb",
+        "+WHALF=5",
+        "+RHALF=7",
+        "+WPHASE=0",
+        "+RPHASE=2",
+        "+SEED=101",
+        "+SCENARIO=0"
+      ],
+      "log": "correct/d4-w8/happy-d4-w8.log",
+      "exit": 0,
+      "timeout": false,
+      "seconds": 0.161054
+    },
+    {
+      "variant": "correct",
+      "case_id": "concurrent-d4-w8",
+      "scenario": 2,
+      "depth": 4,
+      "width": 8,
+      "half_periods_ns": [
+        5,
+        7
+      ],
+      "phases_ns": [
+        4,
+        0
+      ],
+      "seed": 503,
+      "expected_diagnostic": null,
+      "accepted": true,
+      "command": [
+        "/Users/avishas/developer/rivoryxa-examples/fifo-assertion-verification/recorded/2026-09-15-matrix/run-af19139e04e7/correct/d4-w8/obj/Vtb",
+        "+WHALF=5",
+        "+RHALF=7",
+        "+WPHASE=4",
+        "+RPHASE=0",
+        "+SEED=503",
+        "+SCENARIO=2"
+      ],
+      "log": "correct/d4-w8/concurrent-d4-w8.log",
+      "exit": 0,
+      "timeout": false,
+      "seconds": 0.004766
+    },
+    {
+      "variant": "correct",
+      "case_id": "boundary-d8-w13",
+      "scenario": 1,
+      "depth": 8,
+      "width": 13,
+      "half_periods_ns": [
+        4,
+        11
+      ],
+      "phases_ns": [
+        2,
+        5
+      ],
+      "seed": 307,
+      "expected_diagnostic": null,
+      "accepted": true,
+      "command": [
+        "/Users/avishas/developer/rivoryxa-examples/fifo-assertion-verification/recorded/2026-09-15-matrix/run-af19139e04e7/correct/d8-w13/obj/Vtb",
+        "+WHALF=4",
+        "+RHALF=11",
+        "+WPHASE=2",
+        "+RPHASE=5",
+        "+SEED=307",
+        "+SCENARIO=1"
+      ],
+      "log": "correct/d8-w13/boundary-d8-w13.log",
+      "exit": 0,
+      "timeout": false,
+      "seconds": 0.204023
+    },
+    {
+      "variant": "correct",
+      "case_id": "concurrent-d8-w13",
+      "scenario": 2,
+      "depth": 8,
+      "width": 13,
+      "half_periods_ns": [
+        11,
+        4
+      ],
+      "phases_ns": [
+        1,
+        6
+      ],
+      "seed": 601,
+      "expected_diagnostic": null,
+      "accepted": true,
+      "command": [
+        "/Users/avishas/developer/rivoryxa-examples/fifo-assertion-verification/recorded/2026-09-15-matrix/run-af19139e04e7/correct/d8-w13/obj/Vtb",
+        "+WHALF=11",
+        "+RHALF=4",
+        "+WPHASE=1",
+        "+RPHASE=6",
+        "+SEED=601",
+        "+SCENARIO=2"
+      ],
+      "log": "correct/d8-w13/concurrent-d8-w13.log",
+      "exit": 0,
+      "timeout": false,
+      "seconds": 0.003561
+    },
+    {
+      "variant": "full_maxdata_pointer",
+      "case_id": "boundary-d4-w5",
+      "scenario": 1,
+      "depth": 4,
+      "width": 5,
+      "half_periods_ns": [
+        5,
+        7
+      ],
+      "phases_ns": [
+        1,
+        3
+      ],
+      "seed": 211,
+      "expected_diagnostic": "WRITE_POINTER_FAILED",
+      "accepted": true,
+      "command": [
+        "/Users/avishas/developer/rivoryxa-examples/fifo-assertion-verification/recorded/2026-09-15-matrix/run-af19139e04e7/full_maxdata_pointer/d4-w5/obj/Vtb",
+        "+WHALF=5",
+        "+RHALF=7",
+        "+WPHASE=1",
+        "+RPHASE=3",
+        "+SEED=211",
+        "+SCENARIO=1"
+      ],
+      "log": "full_maxdata_pointer/d4-w5/boundary-d4-w5.log",
+      "exit": 1,
+      "timeout": false,
+      "seconds": 0.160265
+    },
+    {
+      "variant": "full_maxdata_pointer",
+      "case_id": "concurrent-d4-w5-a",
+      "scenario": 2,
+      "depth": 4,
+      "width": 5,
+      "half_periods_ns": [
+        7,
+        5
+      ],
+      "phases_ns": [
+        0,
+        3
+      ],
+      "seed": 401,
+      "expected_diagnostic": null,
+      "accepted": true,
+      "command": [
+        "/Users/avishas/developer/rivoryxa-examples/fifo-assertion-verification/recorded/2026-09-15-matrix/run-af19139e04e7/full_maxdata_pointer/d4-w5/obj/Vtb",
+        "+WHALF=7",
+        "+RHALF=5",
+        "+WPHASE=0",
+        "+RPHASE=3",
+        "+SEED=401",
+        "+SCENARIO=2"
+      ],
+      "log": "full_maxdata_pointer/d4-w5/concurrent-d4-w5-a.log",
+      "exit": 0,
+      "timeout": false,
+      "seconds": 0.003231
+    },
+    {
+      "variant": "full_maxdata_pointer",
+      "case_id": "concurrent-d4-w5-b",
+      "scenario": 2,
+      "depth": 4,
+      "width": 5,
+      "half_periods_ns": [
+        3,
+        10
+      ],
+      "phases_ns": [
+        2,
+        1
+      ],
+      "seed": 409,
+      "expected_diagnostic": null,
+      "accepted": true,
+      "command": [
+        "/Users/avishas/developer/rivoryxa-examples/fifo-assertion-verification/recorded/2026-09-15-matrix/run-af19139e04e7/full_maxdata_pointer/d4-w5/obj/Vtb",
+        "+WHALF=3",
+        "+RHALF=10",
+        "+WPHASE=2",
+        "+RPHASE=1",
+        "+SEED=409",
+        "+SCENARIO=2"
+      ],
+      "log": "full_maxdata_pointer/d4-w5/concurrent-d4-w5-b.log",
+      "exit": 0,
+      "timeout": false,
+      "seconds": 0.003028
+    },
+    {
+      "variant": "full_maxdata_pointer",
+      "case_id": "happy-d4-w8",
+      "scenario": 0,
+      "depth": 4,
+      "width": 8,
+      "half_periods_ns": [
+        5,
+        7
+      ],
+      "phases_ns": [
+        0,
+        2
+      ],
+      "seed": 101,
+      "expected_diagnostic": null,
+      "accepted": true,
+      "command": [
+        "/Users/avishas/developer/rivoryxa-examples/fifo-assertion-verification/recorded/2026-09-15-matrix/run-af19139e04e7/full_maxdata_pointer/d4-w8/obj/Vtb",
+        "+WHALF=5",
+        "+RHALF=7",
+        "+WPHASE=0",
+        "+RPHASE=2",
+        "+SEED=101",
+        "+SCENARIO=0"
+      ],
+      "log": "full_maxdata_pointer/d4-w8/happy-d4-w8.log",
+      "exit": 0,
+      "timeout": false,
+      "seconds": 0.163149
+    },
+    {
+      "variant": "full_maxdata_pointer",
+      "case_id": "concurrent-d4-w8",
+      "scenario": 2,
+      "depth": 4,
+      "width": 8,
+      "half_periods_ns": [
+        5,
+        7
+      ],
+      "phases_ns": [
+        4,
+        0
+      ],
+      "seed": 503,
+      "expected_diagnostic": null,
+      "accepted": true,
+      "command": [
+        "/Users/avishas/developer/rivoryxa-examples/fifo-assertion-verification/recorded/2026-09-15-matrix/run-af19139e04e7/full_maxdata_pointer/d4-w8/obj/Vtb",
+        "+WHALF=5",
+        "+RHALF=7",
+        "+WPHASE=4",
+        "+RPHASE=0",
+        "+SEED=503",
+        "+SCENARIO=2"
+      ],
+      "log": "full_maxdata_pointer/d4-w8/concurrent-d4-w8.log",
+      "exit": 0,
+      "timeout": false,
+      "seconds": 0.003665
+    },
+    {
+      "variant": "full_maxdata_pointer",
+      "case_id": "boundary-d8-w13",
+      "scenario": 1,
+      "depth": 8,
+      "width": 13,
+      "half_periods_ns": [
+        4,
+        11
+      ],
+      "phases_ns": [
+        2,
+        5
+      ],
+      "seed": 307,
+      "expected_diagnostic": "WRITE_POINTER_FAILED",
+      "accepted": true,
+      "command": [
+        "/Users/avishas/developer/rivoryxa-examples/fifo-assertion-verification/recorded/2026-09-15-matrix/run-af19139e04e7/full_maxdata_pointer/d8-w13/obj/Vtb",
+        "+WHALF=4",
+        "+RHALF=11",
+        "+WPHASE=2",
+        "+RPHASE=5",
+        "+SEED=307",
+        "+SCENARIO=1"
+      ],
+      "log": "full_maxdata_pointer/d8-w13/boundary-d8-w13.log",
+      "exit": 1,
+      "timeout": false,
+      "seconds": 0.160549
+    },
+    {
+      "variant": "full_maxdata_pointer",
+      "case_id": "concurrent-d8-w13",
+      "scenario": 2,
+      "depth": 8,
+      "width": 13,
+      "half_periods_ns": [
+        11,
+        4
+      ],
+      "phases_ns": [
+        1,
+        6
+      ],
+      "seed": 601,
+      "expected_diagnostic": null,
+      "accepted": true,
+      "command": [
+        "/Users/avishas/developer/rivoryxa-examples/fifo-assertion-verification/recorded/2026-09-15-matrix/run-af19139e04e7/full_maxdata_pointer/d8-w13/obj/Vtb",
+        "+WHALF=11",
+        "+RHALF=4",
+        "+WPHASE=1",
+        "+RPHASE=6",
+        "+SEED=601",
+        "+SCENARIO=2"
+      ],
+      "log": "full_maxdata_pointer/d8-w13/concurrent-d8-w13.log",
+      "exit": 0,
+      "timeout": false,
+      "seconds": 0.003757
+    }
+  ],
+  "builds": [
+    {
+      "variant": "correct",
+      "depth": 4,
+      "width": 5,
+      "exit": 0,
+      "timeout": false,
+      "seconds": 3.643949,
+      "command": [
+        "verilator",
+        "--binary",
+        "--timing",
+        "--assert",
+        "-Wno-fatal",
+        "--top-module",
+        "tb",
+        "-GASIZE=2",
+        "-GDSIZE=5",
+        "--Mdir",
+        "/Users/avishas/developer/rivoryxa-examples/fifo-assertion-verification/recorded/2026-09-15-matrix/run-af19139e04e7/correct/d4-w5/obj",
+        "/Users/avishas/developer/rivoryxa-examples/fifo-assertion-verification/recorded/2026-09-15-matrix/run-af19139e04e7/correct/d4-w5/async_fifo.sv",
+        "/Users/avishas/developer/rivoryxa-examples/fifo-assertion-verification/tb/fifo_properties.sv",
+        "/Users/avishas/developer/rivoryxa-examples/fifo-assertion-verification/tb/tb.sv"
+      ],
+      "source_sha256": "94a99a97046dd9b0a722b93eb353cae4f3ec45a15d3585cf3af3dfc274381fb4"
+    },
+    {
+      "variant": "correct",
+      "depth": 4,
+      "width": 8,
+      "exit": 0,
+      "timeout": false,
+      "seconds": 4.109645,
+      "command": [
+        "verilator",
+        "--binary",
+        "--timing",
+        "--assert",
+        "-Wno-fatal",
+        "--top-module",
+        "tb",
+        "-GASIZE=2",
+        "-GDSIZE=8",
+        "--Mdir",
+        "/Users/avishas/developer/rivoryxa-examples/fifo-assertion-verification/recorded/2026-09-15-matrix/run-af19139e04e7/correct/d4-w8/obj",
+        "/Users/avishas/developer/rivoryxa-examples/fifo-assertion-verification/recorded/2026-09-15-matrix/run-af19139e04e7/correct/d4-w8/async_fifo.sv",
+        "/Users/avishas/developer/rivoryxa-examples/fifo-assertion-verification/tb/fifo_properties.sv",
+        "/Users/avishas/developer/rivoryxa-examples/fifo-assertion-verification/tb/tb.sv"
+      ],
+      "source_sha256": "94a99a97046dd9b0a722b93eb353cae4f3ec45a15d3585cf3af3dfc274381fb4"
+    },
+    {
+      "variant": "correct",
+      "depth": 8,
+      "width": 13,
+      "exit": 0,
+      "timeout": false,
+      "seconds": 3.833982,
+      "command": [
+        "verilator",
+        "--binary",
+        "--timing",
+        "--assert",
+        "-Wno-fatal",
+        "--top-module",
+        "tb",
+        "-GASIZE=3",
+        "-GDSIZE=13",
+        "--Mdir",
+        "/Users/avishas/developer/rivoryxa-examples/fifo-assertion-verification/recorded/2026-09-15-matrix/run-af19139e04e7/correct/d8-w13/obj",
+        "/Users/avishas/developer/rivoryxa-examples/fifo-assertion-verification/recorded/2026-09-15-matrix/run-af19139e04e7/correct/d8-w13/async_fifo.sv",
+        "/Users/avishas/developer/rivoryxa-examples/fifo-assertion-verification/tb/fifo_properties.sv",
+        "/Users/avishas/developer/rivoryxa-examples/fifo-assertion-verification/tb/tb.sv"
+      ],
+      "source_sha256": "94a99a97046dd9b0a722b93eb353cae4f3ec45a15d3585cf3af3dfc274381fb4"
+    },
+    {
+      "variant": "full_maxdata_pointer",
+      "depth": 4,
+      "width": 5,
+      "exit": 0,
+      "timeout": false,
+      "seconds": 3.870716,
+      "command": [
+        "verilator",
+        "--binary",
+        "--timing",
+        "--assert",
+        "-Wno-fatal",
+        "--top-module",
+        "tb",
+        "-GASIZE=2",
+        "-GDSIZE=5",
+        "--Mdir",
+        "/Users/avishas/developer/rivoryxa-examples/fifo-assertion-verification/recorded/2026-09-15-matrix/run-af19139e04e7/full_maxdata_pointer/d4-w5/obj",
+        "/Users/avishas/developer/rivoryxa-examples/fifo-assertion-verification/recorded/2026-09-15-matrix/run-af19139e04e7/full_maxdata_pointer/d4-w5/async_fifo.sv",
+        "/Users/avishas/developer/rivoryxa-examples/fifo-assertion-verification/tb/fifo_properties.sv",
+        "/Users/avishas/developer/rivoryxa-examples/fifo-assertion-verification/tb/tb.sv"
+      ],
+      "source_sha256": "8d7d0523602e48300d004716ec32a9ebd8499468a26052e81c298fb539783f05"
+    },
+    {
+      "variant": "full_maxdata_pointer",
+      "depth": 4,
+      "width": 8,
+      "exit": 0,
+      "timeout": false,
+      "seconds": 4.047686,
+      "command": [
+        "verilator",
+        "--binary",
+        "--timing",
+        "--assert",
+        "-Wno-fatal",
+        "--top-module",
+        "tb",
+        "-GASIZE=2",
+        "-GDSIZE=8",
+        "--Mdir",
+        "/Users/avishas/developer/rivoryxa-examples/fifo-assertion-verification/recorded/2026-09-15-matrix/run-af19139e04e7/full_maxdata_pointer/d4-w8/obj",
+        "/Users/avishas/developer/rivoryxa-examples/fifo-assertion-verification/recorded/2026-09-15-matrix/run-af19139e04e7/full_maxdata_pointer/d4-w8/async_fifo.sv",
+        "/Users/avishas/developer/rivoryxa-examples/fifo-assertion-verification/tb/fifo_properties.sv",
+        "/Users/avishas/developer/rivoryxa-examples/fifo-assertion-verification/tb/tb.sv"
+      ],
+      "source_sha256": "8d7d0523602e48300d004716ec32a9ebd8499468a26052e81c298fb539783f05"
+    },
+    {
+      "variant": "full_maxdata_pointer",
+      "depth": 8,
+      "width": 13,
+      "exit": 0,
+      "timeout": false,
+      "seconds": 4.071168,
+      "command": [
+        "verilator",
+        "--binary",
+        "--timing",
+        "--assert",
+        "-Wno-fatal",
+        "--top-module",
+        "tb",
+        "-GASIZE=3",
+        "-GDSIZE=13",
+        "--Mdir",
+        "/Users/avishas/developer/rivoryxa-examples/fifo-assertion-verification/recorded/2026-09-15-matrix/run-af19139e04e7/full_maxdata_pointer/d8-w13/obj",
+        "/Users/avishas/developer/rivoryxa-examples/fifo-assertion-verification/recorded/2026-09-15-matrix/run-af19139e04e7/full_maxdata_pointer/d8-w13/async_fifo.sv",
+        "/Users/avishas/developer/rivoryxa-examples/fifo-assertion-verification/tb/fifo_properties.sv",
+        "/Users/avishas/developer/rivoryxa-examples/fifo-assertion-verification/tb/tb.sv"
+      ],
+      "source_sha256": "8d7d0523602e48300d004716ec32a9ebd8499468a26052e81c298fb539783f05"
+    }
+  ],
+  "ok": true
+}
