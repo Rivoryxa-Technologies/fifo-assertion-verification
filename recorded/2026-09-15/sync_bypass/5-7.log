@@ -1,0 +1,3 @@
+[119000] %Fatal: fifo_properties.sv:30: Assertion failed in tb.dut.checks: WRITE_SYNC_PIPELINE_FAILED
+%Error: /private/tmp/rivoryxa-fifo-assert-review/tb/fifo_properties.sv:30: Verilog $stop
+Aborting...

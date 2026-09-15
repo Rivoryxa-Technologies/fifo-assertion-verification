@@ -1,0 +1,249 @@
+{
+  "schema_version": 1,
+  "scope": "Bound SVA simulation at ASIZE=2, DSIZE=8, common startup reset assertion with staggered idle release, three clock pairs",
+  "upstream": {
+    "repository": "https://github.com/Rivoryxa-Technologies/cdc-verification",
+    "revision": "72d8122a7c5d458afabff2f858fe76f134010009",
+    "path": "rtl/async_fifo.sv",
+    "sha256": "94a99a97046dd9b0a722b93eb353cae4f3ec45a15d3585cf3af3dfc274381fb4",
+    "license": "MIT"
+  },
+  "source_provenance_verified": true,
+  "sources": {
+    "rtl/async_fifo.sv": "94a99a97046dd9b0a722b93eb353cae4f3ec45a15d3585cf3af3dfc274381fb4",
+    "tb/fifo_properties.sv": "873223a4b3812699cea8f97f8c3ad15cb46b70b824c0c43b1f205118526a0f22",
+    "tb/tb.sv": "eb99e14ae9ed12fa03f855e787d0cdbd4bdd9f433605f8d7f724122095fc5945",
+    "tools/run.py": "dc0709dbbcbb47e40ba65df924e53c6f15d8371f95be355fbe3160174030da6e"
+  },
+  "verilator": "Verilator 5.050 2026-07-01 rev vUNKNOWN-built20260701",
+  "cases": [
+    {
+      "variant": "correct",
+      "half_periods_ns": [
+        5,
+        7
+      ],
+      "expected_diagnostic": null,
+      "accepted": true,
+      "command": [
+        "/private/tmp/rivoryxa-fifo-assert-review/evidence/run-d5f2e856081b/correct/obj/Vtb",
+        "+WHALF=5",
+        "+RHALF=7"
+      ],
+      "log": "correct/5-7.log",
+      "exit": 0,
+      "timeout": false,
+      "seconds": 0.32774
+    },
+    {
+      "variant": "correct",
+      "half_periods_ns": [
+        7,
+        5
+      ],
+      "expected_diagnostic": null,
+      "accepted": true,
+      "command": [
+        "/private/tmp/rivoryxa-fifo-assert-review/evidence/run-d5f2e856081b/correct/obj/Vtb",
+        "+WHALF=7",
+        "+RHALF=5"
+      ],
+      "log": "correct/7-5.log",
+      "exit": 0,
+      "timeout": false,
+      "seconds": 0.023674
+    },
+    {
+      "variant": "correct",
+      "half_periods_ns": [
+        4,
+        11
+      ],
+      "expected_diagnostic": null,
+      "accepted": true,
+      "command": [
+        "/private/tmp/rivoryxa-fifo-assert-review/evidence/run-d5f2e856081b/correct/obj/Vtb",
+        "+WHALF=4",
+        "+RHALF=11"
+      ],
+      "log": "correct/4-11.log",
+      "exit": 0,
+      "timeout": false,
+      "seconds": 0.007917
+    },
+    {
+      "variant": "sync_bypass",
+      "half_periods_ns": [
+        5,
+        7
+      ],
+      "expected_diagnostic": "WRITE_SYNC_PIPELINE_FAILED",
+      "accepted": true,
+      "command": [
+        "/private/tmp/rivoryxa-fifo-assert-review/evidence/run-d5f2e856081b/sync_bypass/obj/Vtb",
+        "+WHALF=5",
+        "+RHALF=7"
+      ],
+      "log": "sync_bypass/5-7.log",
+      "exit": 1,
+      "timeout": false,
+      "seconds": 0.338169
+    },
+    {
+      "variant": "sync_bypass",
+      "half_periods_ns": [
+        7,
+        5
+      ],
+      "expected_diagnostic": "WRITE_SYNC_PIPELINE_FAILED",
+      "accepted": true,
+      "command": [
+        "/private/tmp/rivoryxa-fifo-assert-review/evidence/run-d5f2e856081b/sync_bypass/obj/Vtb",
+        "+WHALF=7",
+        "+RHALF=5"
+      ],
+      "log": "sync_bypass/7-5.log",
+      "exit": 1,
+      "timeout": false,
+      "seconds": 0.00605
+    },
+    {
+      "variant": "sync_bypass",
+      "half_periods_ns": [
+        4,
+        11
+      ],
+      "expected_diagnostic": "WRITE_SYNC_PIPELINE_FAILED",
+      "accepted": true,
+      "command": [
+        "/private/tmp/rivoryxa-fifo-assert-review/evidence/run-d5f2e856081b/sync_bypass/obj/Vtb",
+        "+WHALF=4",
+        "+RHALF=11"
+      ],
+      "log": "sync_bypass/4-11.log",
+      "exit": 1,
+      "timeout": false,
+      "seconds": 0.005932
+    },
+    {
+      "variant": "full_pointer",
+      "half_periods_ns": [
+        5,
+        7
+      ],
+      "expected_diagnostic": "WRITE_POINTER_FAILED",
+      "accepted": true,
+      "command": [
+        "/private/tmp/rivoryxa-fifo-assert-review/evidence/run-d5f2e856081b/full_pointer/obj/Vtb",
+        "+WHALF=5",
+        "+RHALF=7"
+      ],
+      "log": "full_pointer/5-7.log",
+      "exit": 1,
+      "timeout": false,
+      "seconds": 0.252324
+    },
+    {
+      "variant": "full_pointer",
+      "half_periods_ns": [
+        7,
+        5
+      ],
+      "expected_diagnostic": "WRITE_POINTER_FAILED",
+      "accepted": true,
+      "command": [
+        "/private/tmp/rivoryxa-fifo-assert-review/evidence/run-d5f2e856081b/full_pointer/obj/Vtb",
+        "+WHALF=7",
+        "+RHALF=5"
+      ],
+      "log": "full_pointer/7-5.log",
+      "exit": 1,
+      "timeout": false,
+      "seconds": 0.00584
+    },
+    {
+      "variant": "full_pointer",
+      "half_periods_ns": [
+        4,
+        11
+      ],
+      "expected_diagnostic": "WRITE_POINTER_FAILED",
+      "accepted": true,
+      "command": [
+        "/private/tmp/rivoryxa-fifo-assert-review/evidence/run-d5f2e856081b/full_pointer/obj/Vtb",
+        "+WHALF=4",
+        "+RHALF=11"
+      ],
+      "log": "full_pointer/4-11.log",
+      "exit": 1,
+      "timeout": false,
+      "seconds": 0.005843
+    }
+  ],
+  "builds": [
+    {
+      "variant": "correct",
+      "exit": 0,
+      "timeout": false,
+      "seconds": 8.990391,
+      "command": [
+        "verilator",
+        "--binary",
+        "--timing",
+        "--assert",
+        "-Wno-fatal",
+        "--top-module",
+        "tb",
+        "--Mdir",
+        "/private/tmp/rivoryxa-fifo-assert-review/evidence/run-d5f2e856081b/correct/obj",
+        "/private/tmp/rivoryxa-fifo-assert-review/evidence/run-d5f2e856081b/correct/async_fifo.sv",
+        "/private/tmp/rivoryxa-fifo-assert-review/tb/fifo_properties.sv",
+        "/private/tmp/rivoryxa-fifo-assert-review/tb/tb.sv"
+      ],
+      "source_sha256": "94a99a97046dd9b0a722b93eb353cae4f3ec45a15d3585cf3af3dfc274381fb4"
+    },
+    {
+      "variant": "sync_bypass",
+      "exit": 0,
+      "timeout": false,
+      "seconds": 6.769717,
+      "command": [
+        "verilator",
+        "--binary",
+        "--timing",
+        "--assert",
+        "-Wno-fatal",
+        "--top-module",
+        "tb",
+        "--Mdir",
+        "/private/tmp/rivoryxa-fifo-assert-review/evidence/run-d5f2e856081b/sync_bypass/obj",
+        "/private/tmp/rivoryxa-fifo-assert-review/evidence/run-d5f2e856081b/sync_bypass/async_fifo.sv",
+        "/private/tmp/rivoryxa-fifo-assert-review/tb/fifo_properties.sv",
+        "/private/tmp/rivoryxa-fifo-assert-review/tb/tb.sv"
+      ],
+      "source_sha256": "249b133ce972bb87a7328c200def4c8eb7e875fc16257bc384194a476c8de0ef"
+    },
+    {
+      "variant": "full_pointer",
+      "exit": 0,
+      "timeout": false,
+      "seconds": 6.920068,
+      "command": [
+        "verilator",
+        "--binary",
+        "--timing",
+        "--assert",
+        "-Wno-fatal",
+        "--top-module",
+        "tb",
+        "--Mdir",
+        "/private/tmp/rivoryxa-fifo-assert-review/evidence/run-d5f2e856081b/full_pointer/obj",
+        "/private/tmp/rivoryxa-fifo-assert-review/evidence/run-d5f2e856081b/full_pointer/async_fifo.sv",
+        "/private/tmp/rivoryxa-fifo-assert-review/tb/fifo_properties.sv",
+        "/private/tmp/rivoryxa-fifo-assert-review/tb/tb.sv"
+      ],
+      "source_sha256": "ed7591cce97e5254d8ee50e68b17836140a2940bd2acdbe4f5da4692b954c8b4"
+    }
+  ],
+  "ok": true
+}
