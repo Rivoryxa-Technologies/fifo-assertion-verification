@@ -48,3 +48,16 @@ The data scoreboard and explicit exercise counters establish the events describe
 `rtl/async_fifo.sv` is copied byte for byte from [Rivoryxa-Technologies/cdc-verification](https://github.com/Rivoryxa-Technologies/cdc-verification) revision `72d8122a7c5d458afabff2f858fe76f134010009`, under its retained MIT licence. `UPSTREAM.json` pins the path and SHA-256. The runner refuses to execute if either revision metadata or the source hash changes. Assertions, runner, and testbench are original MIT-licensed demonstration code.
 
 Tool runtimes are recorded per command and are not client delivery estimates. This repository is public demonstration material, not client RTL or production sign-off.
+
+---
+
+## More from Rivoryxa
+
+This repository is one public example. The method it demonstrates is applied to
+real OpenHW CORE-V issues in
+[core-v-investigation-reports](https://github.com/Rivoryxa-Technologies/core-v-investigation-reports):
+sixteen public GitHub issues taken to a disposition, each with its evidence,
+proof scope and limits written down.
+
+All examples are listed on the
+[Rivoryxa Technologies profile](https://github.com/Rivoryxa-Technologies).
